@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Dict
 from random import randint
-from money_storage import MoneyStorage
+from .money_storage import MoneyStorage
 
 
 def get_id() -> int:

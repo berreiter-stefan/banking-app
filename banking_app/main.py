@@ -1,5 +1,5 @@
-from vault import Vault
-from money_storage import BankAccount, CryptoWallet
+from entitites.vault import Vault
+from entitites.money_storage import BankAccount, CryptoWallet
 
 
 def main():
