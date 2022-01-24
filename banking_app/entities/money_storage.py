@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
+from typing import List
 from random import randint
+from .transaction import Transaction
 
 
 def get_id() -> int:
@@ -16,6 +18,7 @@ class MoneyStorage(ABC):
         self.balance: int = 0
         self.currency: str = ""
         self.name: str = "undefined"
+        self.past_transactions: List = []
 
     @abstractmethod
     def deposit(self, amount: int) -> None:
@@ -28,6 +31,21 @@ class MoneyStorage(ABC):
     @abstractmethod
     def show_balance(self) -> None:
         ...
+
+    def send_money(self, receiver: "MoneyStorage", amount: int) -> None:
+        new_transaction = Transaction(
+            sender_account=self, receiver_account=receiver, amount=amount
+        )
+        self.past_transactions.append(new_transaction)
+        receiver.past_transactions.append(new_transaction)
+
+    def revert_past_money_transfer(self) -> bool:
+        if not self.past_transactions:
+            return False
+        reverted_transaction = self.past_transactions.pop()
+        reverted_transaction.receiver_account.past_transactions.pop()
+        reverted_transaction.undo()
+        return True
 
 
 class BankAccount(MoneyStorage):

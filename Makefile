@@ -1,5 +1,6 @@
 SHELL := /bin/bash
 .ONESHELL:
+.PHONY: test
 
 DIR_CODE = "banking_app"
 DIR_VENV = "venv"
@@ -16,8 +17,17 @@ venv-new:
 venv-clean:
 	rm -r ${DIR_VENV}; # cleans virtual environment
 
+postgres-up:
+	docker-compose up -d
+
+postgres-down:
+	docker-compose down
+
 build:
 	python3 ${DIR_CODE}/main.py
+
+test:
+	PYTHONPATH=. pytest
 
 polish:
 	black .

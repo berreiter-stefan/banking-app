@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Optional
 from random import randint
 from .money_storage import MoneyStorage
 
@@ -16,13 +16,13 @@ class Vault:
     created_at: datetime = datetime.now()
     accounts: Dict[int, MoneyStorage] = field(default_factory=dict)
 
-    def add_account(self, account: MoneyStorage) -> bool:
+    def add_account(self, account: MoneyStorage) -> Optional[int]:
         print(account)
         if not isinstance(account, MoneyStorage):
-            return False
+            return None
         self.id = get_id()
         self.accounts[self.id] = account
-        return True
+        return self.id
 
     def get_accounts(self) -> Dict[int, str]:
         return {id: acc.name for id, acc in self.accounts.items()}
