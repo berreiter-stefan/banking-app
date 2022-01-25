@@ -12,14 +12,13 @@ def get_id() -> int:
 @dataclass
 class Vault:
     password: str
-    id: int = 0
+    id: int = get_id()
     created_at: datetime = datetime.now()
     accounts: Dict[int, MoneyStorage] = field(default_factory=dict)
 
     def add_account(self, account: MoneyStorage) -> Optional[int]:
         if not isinstance(account, MoneyStorage):
             return None
-        self.id = get_id()
         self.accounts[self.id] = account
         return self.id
 

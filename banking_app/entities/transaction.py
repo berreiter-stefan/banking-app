@@ -20,7 +20,7 @@ class Transaction(ABC):
     amount: int
     payment_broker: PaymentBroker = None
     transaction_fee: int = 0
-    id: int = 0
+    id: int = get_id()
     created_at: datetime = datetime.now()
 
     @abstractmethod
@@ -38,7 +38,6 @@ class FreeTransaction(Transaction):
         self.execute()
 
     def execute(self):
-        self.id = get_id()
         self.sender_account.withdraw(self.amount)
         self.receiver_account.deposit(self.amount)
         print("normal executed")
@@ -61,7 +60,6 @@ class PremiumTransaction(Transaction):
         self.execute()
 
     def execute(self):
-        self.id = get_id()
         self.sender_account.withdraw(self.amount)
         self.receiver_account.deposit(self.net_amount)
         self.payment_broker.compensate_transaction_fee(self.transaction_fee)
