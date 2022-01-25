@@ -13,4 +13,3 @@ def test_if_account_can_be_overdrawn():
         acc.withdraw(
             amount=100
         ), "should not be possible to withdraw money from an empty account."
-

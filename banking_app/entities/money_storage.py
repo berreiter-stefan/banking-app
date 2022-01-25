@@ -1,7 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import List
 from random import randint
-from .transaction import Transaction
+from .transaction import PremiumTransaction, FreeTransaction, Transaction
+from .payment_broker import PaymentBroker
+from enum import Enum
+
+
+class TransactionType(Enum):
+    FREE = 1
+    PREMIUM = 2
 
 
 def get_id() -> int:
@@ -18,7 +25,7 @@ class MoneyStorage(ABC):
         self.balance: int = 0
         self.currency: str = ""
         self.name: str = "undefined"
-        self.past_transactions: List = []
+        self.past_transactions: List[Transaction] = []
 
     @abstractmethod
     def deposit(self, amount: int) -> None:
@@ -32,10 +39,28 @@ class MoneyStorage(ABC):
     def show_balance(self) -> None:
         ...
 
-    def send_money(self, receiver: "MoneyStorage", amount: int) -> None:
-        new_transaction = Transaction(
-            sender_account=self, receiver_account=receiver, amount=amount
-        )
+    def send_money(
+        self,
+        receiver: "MoneyStorage",
+        amount: int,
+        t_type: TransactionType = TransactionType.FREE,
+        payment_broker: PaymentBroker = None,
+    ) -> None:
+        if t_type == TransactionType.FREE:
+            new_transaction = FreeTransaction(
+                sender_account=self, receiver_account=receiver, amount=amount
+            )
+        elif t_type == TransactionType.PREMIUM:
+            if not payment_broker:
+                raise ValueError("No payment broker specified for premium transaction...")
+            new_transaction = PremiumTransaction(
+                sender_account=self,
+                receiver_account=receiver,
+                amount=amount,
+                payment_broker=payment_broker,
+            )
+        else:
+            raise NotImplementedError("No other ones implemented yet.")
         self.past_transactions.append(new_transaction)
         receiver.past_transactions.append(new_transaction)
 
