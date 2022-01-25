@@ -1,0 +1,14 @@
+version: '3'
+services:
+  sync-db:
+    container_name: bank-db
+    image: postgres:13.5
+    ports:
+      - 5111:5432
+    expose:
+      - 5111
+    environment:
+      POSTGRES_DB: bank_db
+      POSTGRES_USER: bank_boss
+      POSTGRES_PASSWORD: bank_boss_pw
+      POSTGRES_HOST_AUTH_METHOD: trust
