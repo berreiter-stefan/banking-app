@@ -17,7 +17,6 @@ class Vault:
     accounts: Dict[int, MoneyStorage] = field(default_factory=dict)
 
     def add_account(self, account: MoneyStorage) -> Optional[int]:
-        print(account)
         if not isinstance(account, MoneyStorage):
             return None
         self.id = get_id()
@@ -25,7 +24,7 @@ class Vault:
         return self.id
 
     def get_accounts(self) -> Dict[int, str]:
-        return {id: acc.name for id, acc in self.accounts.items()}
+        return {idx: acc.name for idx, acc in self.accounts.items()}
 
     def balance(self) -> int:
         return sum([account.balance for account in self.accounts.values()])

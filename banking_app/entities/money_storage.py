@@ -52,7 +52,9 @@ class MoneyStorage(ABC):
             )
         elif t_type == TransactionType.PREMIUM:
             if not payment_broker:
-                raise ValueError("No payment broker specified for premium transaction...")
+                raise ValueError(
+                    "No payment broker specified for premium transaction..."
+                )
             new_transaction = PremiumTransaction(
                 sender_account=self,
                 receiver_account=receiver,

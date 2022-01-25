@@ -15,7 +15,7 @@ def main():
     )
     vault1.add_account(CryptoWallet(currency="Bitcoin"))
     vault1.accounts[vault1_acc_id].deposit(10000)
-    #vault1.get_overview(password="vault1_pw")
+    # vault1.get_overview(password="vault1_pw")
 
     vault2 = Vault(password="vault2_pw")
     vault2_acc_id = vault2.add_account(BankAccount(institute="N26", iban="111111-abc"))
@@ -24,20 +24,26 @@ def main():
         receiver=vault2.accounts.get(vault2_acc_id), amount=133
     )
     vault1.accounts.get(vault1_acc_id).send_money(
-        receiver=vault2.accounts.get(vault2_acc_id), amount=200, t_type=TransactionType.PREMIUM, payment_broker=paypal
+        receiver=vault2.accounts.get(vault2_acc_id),
+        amount=200,
+        t_type=TransactionType.PREMIUM,
+        payment_broker=paypal,
     )
 
     vault1.accounts.get(vault1_acc_id).send_money(
-        receiver=vault2.accounts.get(vault2_acc_id), amount=1000, t_type=TransactionType.PREMIUM, payment_broker=paypal
+        receiver=vault2.accounts.get(vault2_acc_id),
+        amount=1000,
+        t_type=TransactionType.PREMIUM,
+        payment_broker=paypal,
     )
 
-    #vault1.get_overview(password="vault1_pw")
-    #vault2.get_overview(password="vault2_pw")
-    #vault1.accounts.get(vault1_acc_id).revert_past_money_transfer()
-    #vault1.accounts.get(vault1_acc_id).revert_past_money_transfer()
+    # vault1.get_overview(password="vault1_pw")
+    # vault2.get_overview(password="vault2_pw")
+    # vault1.accounts.get(vault1_acc_id).revert_past_money_transfer()
+    # vault1.accounts.get(vault1_acc_id).revert_past_money_transfer()
 
-    #vault1.get_overview(password="vault1_pw")
-    #vault2.get_overview(password="vault2_pw")
+    # vault1.get_overview(password="vault1_pw")
+    # vault2.get_overview(password="vault2_pw")
 
     print(f"paypal earnings so far: {paypal.earnings}")
 
